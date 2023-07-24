@@ -5,7 +5,6 @@ import Contacts from "./container/Contacts/Contacts";
 import AddContact from "./container/AddContact/AddContact";
 import EditContact from "./container/EditContact/EditContact";
 
-
 function App() {
   return (
       <>

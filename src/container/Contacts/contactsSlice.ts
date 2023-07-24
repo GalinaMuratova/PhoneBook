@@ -15,7 +15,8 @@ interface ContactsState {
     contact: Contact | null;
     addLoading: boolean;
     getContactsLoading: boolean;
-    loadingOne: boolean
+    loadingOne: boolean;
+    deleteLoading: boolean;
 }
 
 const initialState: ContactsState = {
@@ -23,7 +24,8 @@ const initialState: ContactsState = {
     contact: null,
     addLoading:false,
     getContactsLoading: false,
-    loadingOne:false
+    loadingOne:false,
+    deleteLoading:false
 };
 
 export const fetchContacts = createAsyncThunk<Contact[]> (
@@ -49,6 +51,13 @@ export const addContact = createAsyncThunk<void, IContact>(
     },
 );
 
+export const deleteContact = createAsyncThunk<void, string>(
+    'contacts/delete',
+    async (id: string) => {
+        await axiosApi.delete(`contacts/${id}.json`);
+    }
+)
+
 const contactsSlice = createSlice({
     name: 'contacts',
     initialState,
@@ -72,6 +81,15 @@ const contactsSlice = createSlice({
         });
         builder.addCase(addContact.rejected, (state) => {
             state.addLoading = false;
+        });
+        builder.addCase(deleteContact.pending, (state) => {
+            state.deleteLoading = true;
+        });
+        builder.addCase(deleteContact.fulfilled, (state) => {
+            state.deleteLoading = false;
+        });
+        builder.addCase(deleteContact.rejected, (state) => {
+            state.deleteLoading = false;
         });
     }
 });

@@ -7,5 +7,4 @@ const EditContact = () => {
         </div>
     );
 };
-
 export default EditContact;
