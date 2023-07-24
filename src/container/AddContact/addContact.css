@@ -1,0 +1,19 @@
+.img-add {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.img-add img {
+    width: 150px;
+    height: 150px;
+}
+
+.form-contact {
+    width: 500px;
+    margin: 0 auto;
+    background: aliceblue;
+    padding: 15px 30px;
+    border-radius: 8px;
+}
