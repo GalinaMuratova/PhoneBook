@@ -4,7 +4,7 @@ import {AppDispatch, RootState} from "../../app/store";
 import {IContact} from "../../types";
 import './addContact.css';
 import {addContact} from "../Contacts/contactsSlice";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 
 const contactInfo = {
@@ -39,11 +39,13 @@ const AddContact: React.FC = () => {
             ...prevState,
             [name]: value,
         }));
-        console.log(name + ':' + value);
     };
 
     let btn = (
-        <button type='submit' className='btn btn-primary'>Add contact</button>
+        <>
+            <button type='submit' className='btn btn-primary mx-2'>Add contact</button>
+            <Link to='/' className='btn btn-secondary'>Home</Link>
+        </>
     );
 
     if (loading) {
