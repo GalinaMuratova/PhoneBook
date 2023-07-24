@@ -15,11 +15,6 @@ const Contacts: React.FC = () => {
         dispatch(fetchContacts());
     }, [dispatch]);
 
-    // const onEditContact = async (id: string) => {
-    //     // await dispatch(changeChecked(id));
-    //     // await dispatch(fetchContacts());
-    // };
-
     const onDeleteContact = async(id : string) => {
         if (window.confirm(`Do you want to delete task?`)) {
             await dispatch(deleteContact(id));

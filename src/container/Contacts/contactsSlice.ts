@@ -1,23 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {IContact} from "../../types";
+import {Contact, ContactsState, IContact, UpdateContact} from "../../types";
 import axiosApi from "../../axiosApi";
-
-interface Contact {
-    id: string;
-    name: string;
-    number: string;
-    email: string;
-    photo: string;
-}
-
-interface ContactsState {
-    contacts: Contact[];
-    contact: Contact | null;
-    addLoading: boolean;
-    getContactsLoading: boolean;
-    loadingOne: boolean;
-    deleteLoading: boolean;
-}
 
 const initialState: ContactsState = {
     contacts: [],
@@ -25,7 +8,8 @@ const initialState: ContactsState = {
     addLoading:false,
     getContactsLoading: false,
     loadingOne:false,
-    deleteLoading:false
+    deleteLoading:false,
+    updateLoading:false
 };
 
 export const fetchContacts = createAsyncThunk<Contact[]> (
@@ -44,12 +28,29 @@ export const fetchContacts = createAsyncThunk<Contact[]> (
     },
 );
 
+export const fetchContact = createAsyncThunk<IContact, string>(
+    'contacts/getContact',
+    async (id) => {
+        const response = await axiosApi.get<IContact>(`/contacts/${id}.json`);
+        return {
+            ...response.data
+        };
+    },
+);
+
 export const addContact = createAsyncThunk<void, IContact>(
     'contacts/add',
     async (contact) => {
         await axiosApi.post('/contacts.json', contact);
     },
 );
+
+export const updateContact = createAsyncThunk<void, UpdateContact> (
+    '',
+    async (element) => {
+        await axiosApi.put(`/contacts/${element.id}.json`, element.contact);
+    }
+)
 
 export const deleteContact = createAsyncThunk<void, string>(
     'contacts/delete',
@@ -73,6 +74,16 @@ const contactsSlice = createSlice({
         builder.addCase(fetchContacts.rejected, (state) => {
             state.getContactsLoading = false;
         });
+        builder.addCase(fetchContact.pending, (state) => {
+            state.loadingOne = true;
+        });
+        builder.addCase(fetchContact.fulfilled, (state, action) => {
+            state.loadingOne = false;
+            state.contact = action.payload;
+        });
+        builder.addCase(fetchContact.rejected,  (state) => {
+            state.loadingOne = false;
+        });
         builder.addCase(addContact.pending, (state) => {
             state.addLoading = true;
         });
@@ -81,6 +92,15 @@ const contactsSlice = createSlice({
         });
         builder.addCase(addContact.rejected, (state) => {
             state.addLoading = false;
+        });
+        builder.addCase(updateContact.pending, (state) => {
+            state.updateLoading = true;
+        });
+        builder.addCase(updateContact.fulfilled, (state) => {
+            state.updateLoading = false;
+        });
+        builder.addCase(updateContact.rejected, (state) => {
+            state.updateLoading = false;
         });
         builder.addCase(deleteContact.pending, (state) => {
             state.deleteLoading = true;

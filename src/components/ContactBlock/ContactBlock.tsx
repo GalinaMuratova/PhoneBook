@@ -25,13 +25,6 @@ const ContactBlock: React.FC<Props> = (props) => {
     const click = async () => {
         handleOpenModal();
     };
-    const editContact = (id: string) => {
-        console.log('edit' + id);
-    };
-
-    const deleteContact = (id:string) => {
-        console.log('delete' + id);
-    };
 
     return (
         <>
