@@ -7,7 +7,11 @@
     border-radius: 5px;
     background-color: #f2f2f2;
     transition: background-color 0.3s ease;
+    width: 700px;
+    margin: 0 auto;
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
 }
+
 .profile-img {
     width: 100px;
     height: 100px;
@@ -32,3 +36,67 @@
 .card-cont:hover {
     background-color: #e0e0e0;
 }
+
+.block-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: #333333;
+    padding: 30px 50px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.contact-modal h3, .contact-modal p, .contact-modal span {
+    margin: 0;
+    padding: 5px 0;
+}
+
+.contact-modal button {
+    margin-right: 10px;
+}
+
+.contact-modal button:last-child {
+    margin-right: 0;
+}
+
+.contact-modal button.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.close-btn {
+    background-image: url("https://logowik.com/content/uploads/images/close1437.jpg");
+    background-position:center ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    border: none;
+    margin: 10px 0 10px auto;
+    display:block;
+    border-radius: 8px;
+}
+

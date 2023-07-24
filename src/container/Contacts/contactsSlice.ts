@@ -3,7 +3,7 @@ import {IContact} from "../../types";
 import axiosApi from "../../axiosApi";
 
 interface Contact {
-    id: number;
+    id: string;
     name: string;
     number: string;
     email: string;
@@ -12,21 +12,24 @@ interface Contact {
 
 interface ContactsState {
     contacts: Contact[];
+    contact: Contact | null;
     addLoading: boolean;
-    getContacts: boolean;
+    getContactsLoading: boolean;
+    loadingOne: boolean
 }
 
 const initialState: ContactsState = {
     contacts: [],
+    contact: null,
     addLoading:false,
-    getContacts: false,
+    getContactsLoading: false,
+    loadingOne:false
 };
 
 export const fetchContacts = createAsyncThunk<Contact[]> (
     'contacts/getContacts',
     async () => {
       const response = await axiosApi.get('/contacts.json');
-        console.log(response.data)
         let contacts:Contact[] = [];
         if (response.data) {
             contacts = Object.keys(response.data).map((key) => {
@@ -35,17 +38,16 @@ export const fetchContacts = createAsyncThunk<Contact[]> (
                 return newContact;
             });
         }
-        console.log(contacts)
         return contacts;
-    }
-)
+    },
+);
 
 export const addContact = createAsyncThunk<void, IContact>(
     'contacts/add',
     async (contact) => {
         await axiosApi.post('/contacts.json', contact);
     },
-)
+);
 
 const contactsSlice = createSlice({
     name: 'contacts',
@@ -53,14 +55,14 @@ const contactsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchContacts.pending, (state) => {
-            state.getContacts = true;
+            state.getContactsLoading = true;
         });
         builder.addCase(fetchContacts.fulfilled, (state, action) => {
-            state.getContacts = false;
+            state.getContactsLoading = false;
             state.contacts = action.payload;
         });
         builder.addCase(fetchContacts.rejected, (state) => {
-            state.getContacts = false;
+            state.getContactsLoading = false;
         });
         builder.addCase(addContact.pending, (state) => {
             state.addLoading = true;
